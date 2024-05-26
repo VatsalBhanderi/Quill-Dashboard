@@ -24,6 +24,7 @@ import com.example.quill.util.Util;
 
 @RestController
 @RequestMapping("/dashboard")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DashboardController {
 
     @Autowired
