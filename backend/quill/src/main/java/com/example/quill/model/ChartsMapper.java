@@ -15,13 +15,15 @@ public class ChartsMapper {
 	private String yName;
 	private List<Map<String, Object>> data;
 	private String chartType;
+	private String dateField;
 	
-	public ChartsMapper(String chartName, String xName, String yName, List<Map<String, Object>> data, String chartType) {
+	public ChartsMapper(String chartName, String xName, String yName, List<Map<String, Object>> data, String chartType, String dateField) {
 		this.chartName = chartName;
 		this.xName = xName;
 		this.yName = yName;
 		this.data = data;
 		this.chartType=chartType;
+		this.dateField = dateField;
 	}
 	
 	
@@ -59,5 +61,17 @@ public class ChartsMapper {
 	public void setChartType(String chartType) {
 		this.chartType = chartType;
 	}
+
+
+	public String getDateField() {
+		return dateField;
+	}
+
+
+	public void setDateField(String dateField) {
+		this.dateField = dateField;
+	}
+	
+	
 	
 }

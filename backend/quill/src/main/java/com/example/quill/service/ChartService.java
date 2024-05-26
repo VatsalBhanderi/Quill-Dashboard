@@ -39,12 +39,19 @@ public class ChartService {
         List<ChartsMapper> chartsList = new ArrayList<>();
         
         for (Chart chart : charts) {
-            String sqlQuery = chart.getSqlQuery().replace(":startDate", "\'" + startDate + "\'").replace(":endDate", "\'" + endDate + "\'");
+        	String tableName = chart.getDateField().getTable();
+        	String field = chart.getDateField().getField();
+        	
+        	String sqlQuery = chart.getSqlQuery();
+        	String withQuery = "WITH filtered_data AS (SELECT * FROM tableName where date >= :startDate AND date <= :endDate) ";
+        	String modifiedQuery = withQuery.replace(":startDate", "\'" + startDate + "\'").replace(":endDate", "\'" + endDate + "\'").replace("tableName", tableName).replace("date", field)
+        			+ sqlQuery.replace("FROM "+tableName, "FROM filtered_data");
+            
             System.out.println("query to execute executeQueriesForDashboard(): " + sqlQuery);
-            List<Map<String, Object>> result = jdbcTemplate.queryForList(sqlQuery);
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(modifiedQuery);
             
     		ChartsMapper chartMapper = new ChartsMapper(chart.getName(), chart.getxAxisField(),
-    										chart.getyAxisField(), result, chart.getChartType());
+    										chart.getyAxisField(), result, chart.getChartType(), field);
     		chartsList.add(chartMapper);
         }
 
