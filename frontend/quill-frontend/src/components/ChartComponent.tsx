@@ -3,6 +3,23 @@ import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, L
 
 const ChartComponent = ({ chart }) => {
   const { chartType, data, xName, yName, chartName } = chart;
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="p-4 bg-slate-900 flex flex-col gap-4 rounded-md">
+          <p className="text-sm text-blue-400">
+            {xName}:
+            <span className="ml-2">{payload[0].payload[xName]}</span>
+          </p>
+          <p className="text-sm text-indigo-400">
+            {yName}:
+            <span className="ml-2">{payload[0].payload[yName]}</span>
+          </p>
+        </div>
+      );
+    }
+  };
   // console.log("Inside ChartCOmponent", chartType, data, xName, yName, chartName);
   return (
     <div style={{ margin: '20px 0' }}>
@@ -12,7 +29,7 @@ const ChartComponent = ({ chart }) => {
           <XAxis dataKey={xName} />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
+          <Tooltip content={CustomTooltip}/>
           <Legend />
           <Line type="monotone" dataKey={yName} stroke="#8884d8" />
         </LineChart>
@@ -22,7 +39,7 @@ const ChartComponent = ({ chart }) => {
           <XAxis dataKey={xName} />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
+          <Tooltip content={CustomTooltip} />
           <Legend />
           <Bar dataKey={yName} fill="#8884d8" />
         </BarChart>
@@ -33,3 +50,5 @@ const ChartComponent = ({ chart }) => {
 };
 
 export default ChartComponent;
+
+
